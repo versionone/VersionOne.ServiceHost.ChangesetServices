@@ -10,8 +10,6 @@ namespace VersionOne.ServiceHost.ChangesetServices.Test
         public void TestMethod1()
         {
             Assert.IsTrue(true);
-
-
         }
     }
 }
