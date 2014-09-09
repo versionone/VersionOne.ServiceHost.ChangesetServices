@@ -8,8 +8,8 @@
     <ProjectGuid>{CDFFFB1F-1C37-41E7-BFF1-4C63699D0D04}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VersionOne.ServiceHost.SourceServices</RootNamespace>
-    <AssemblyName>VersionOne.ServiceHost.SourceServices</AssemblyName>
+    <RootNamespace>VersionOne.ServiceHost.ChangesetServices</RootNamespace>
+    <AssemblyName>VersionOne.ServiceHost.ChangesetServices</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
