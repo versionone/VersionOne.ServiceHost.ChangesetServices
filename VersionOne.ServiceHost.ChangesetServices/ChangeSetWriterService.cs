@@ -103,7 +103,7 @@ namespace VersionOne.ServiceHost.SubversionServices
             {
                 if(ShouldCreate(affectedworkitems)) 
                 {
-                    changeSet = V1Connection.Data.New(ChangeSetType, Oid.Null);
+                    changeSet = Services.New(ChangeSetType, Oid.Null);
                     changeSet.SetAttributeValue(ChangeSetReferenceDef, info.Revision);
                 } 
                 else 
@@ -133,7 +133,7 @@ namespace VersionOne.ServiceHost.SubversionServices
             q.Filter = term;
             q.Paging = new Paging(0, 1);
 
-            return V1Connection.Data.Retrieve(q);
+            return Services.Retrieve(q);
         }
 
         private IList<Oid> FindWorkitemOid(string reference) 
@@ -144,8 +144,7 @@ namespace VersionOne.ServiceHost.SubversionServices
             term.Equal(reference);
             q.Filter = term;
 
-            AssetList list;
-            list = V1Connection.Data.Retrieve(q).Assets;
+            var list = Services.Retrieve(q).Assets;
 
             foreach(var asset in list) 
             {
@@ -194,7 +193,7 @@ namespace VersionOne.ServiceHost.SubversionServices
                 changeSet.AddAttributeValue(ChangeSetPrimaryWorkitemsDef, oid);
             }
 
-            V1Connection.Data.Save(changeSet, changecomment);
+            Services.Save(changeSet, changecomment);
             return changeSet;
         }
 
@@ -215,12 +214,12 @@ namespace VersionOne.ServiceHost.SubversionServices
                 }
             }
 
-            var newlink = V1Connection.Data.New(LinkType, savedAsset.Oid.Momentless);
+            var newlink = Services.New(LinkType, savedAsset.Oid.Momentless);
             newlink.SetAttributeValue(LinkNameDef, name);
             newlink.SetAttributeValue(LinkUrlDef, url);
             newlink.SetAttributeValue(LinkOnMenuDef, info.Link.OnMenu);
 
-            V1Connection.Data.Save(newlink, changecomment);
+            Services.Save(newlink, changecomment);
         }
 
         #region Meta Properties
@@ -232,18 +231,18 @@ namespace VersionOne.ServiceHost.SubversionServices
                 new NeededAssetType("Link", new[] {"Name", "URL", "OnMenu"}),
             };
 
-        private IAssetType ChangeSetType { get { return V1Connection.Meta.GetAssetType("ChangeSet"); } }
-        private IAttributeDefinition ChangeSetPrimaryWorkitemsDef { get { return V1Connection.Meta.GetAttributeDefinition("ChangeSet.PrimaryWorkitems"); } }
-        private IAttributeDefinition ChangeSetNameDef { get { return V1Connection.Meta.GetAttributeDefinition("ChangeSet.Name"); } }
-        private IAttributeDefinition ChangeSetReferenceDef { get { return V1Connection.Meta.GetAttributeDefinition("ChangeSet.Reference"); } }
-        private IAttributeDefinition ChangeSetDescriptionDef { get { return V1Connection.Meta.GetAttributeDefinition("ChangeSet.Description"); } }
-        private IAssetType PrimaryWorkitemType { get { return V1Connection.Meta.GetAssetType("PrimaryWorkitem"); } }
-        private IAttributeDefinition PrimaryWorkitemReferenceDef { get { return V1Connection.Meta.GetAttributeDefinition("PrimaryWorkitem.ChildrenMeAndDown." + referencename); } }
-        private IAttributeDefinition LinkNameDef { get { return V1Connection.Meta.GetAttributeDefinition("Link.Name"); } }
-        private IAttributeDefinition LinkUrlDef { get { return V1Connection.Meta.GetAttributeDefinition("Link.URL"); } }
-        private IAttributeDefinition LinkOnMenuDef { get { return V1Connection.Meta.GetAttributeDefinition("Link.OnMenu"); } }
-        private new string StoryName { get { return V1Connection.Localization.Resolve("Plural'Story"); } }
-        private new string DefectName { get { return V1Connection.Localization.Resolve("Plural'Defect"); } }
+        private IAssetType ChangeSetType { get { return Services.Meta.GetAssetType("ChangeSet"); } }
+        private IAttributeDefinition ChangeSetPrimaryWorkitemsDef { get { return Services.Meta.GetAttributeDefinition("ChangeSet.PrimaryWorkitems"); } }
+        private IAttributeDefinition ChangeSetNameDef { get { return Services.Meta.GetAttributeDefinition("ChangeSet.Name"); } }
+        private IAttributeDefinition ChangeSetReferenceDef { get { return Services.Meta.GetAttributeDefinition("ChangeSet.Reference"); } }
+        private IAttributeDefinition ChangeSetDescriptionDef { get { return Services.Meta.GetAttributeDefinition("ChangeSet.Description"); } }
+        private IAssetType PrimaryWorkitemType { get { return Services.Meta.GetAssetType("PrimaryWorkitem"); } }
+        private IAttributeDefinition PrimaryWorkitemReferenceDef { get { return Services.Meta.GetAttributeDefinition("PrimaryWorkitem.ChildrenMeAndDown." + referencename); } }
+        private IAttributeDefinition LinkNameDef { get { return Services.Meta.GetAttributeDefinition("Link.Name"); } }
+        private IAttributeDefinition LinkUrlDef { get { return Services.Meta.GetAttributeDefinition("Link.URL"); } }
+        private IAttributeDefinition LinkOnMenuDef { get { return Services.Meta.GetAttributeDefinition("Link.OnMenu"); } }
+        private new string StoryName { get { return Services.Localization("Plural'Story"); } }
+        private new string DefectName { get { return Services.Localization("Plural'Defect"); } }
         protected override IEnumerable<NeededAssetType> NeededAssetTypes { get { return neededassettypes; } }
 
         #endregion
